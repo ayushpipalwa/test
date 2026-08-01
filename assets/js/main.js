@@ -132,7 +132,7 @@
       name: "Ayush Pipalwa",
       role: "Founder",
       experience: "Leadership",
-      image: "Images/ayushpipalwa.jpg",
+      image: "assets/img/team/ayush-pipalwa.jpg?v=20260801",
       fallback: "assets/img/team/Ayush.jpeg",
       bio: "Founder of Instant Professionals, leading a multidisciplinary advisory platform focused on practical, timely and technology-enabled professional services.",
       expertise: ["Business Advisory", "Tax & Compliance", "Corporate Services"]
@@ -181,7 +181,8 @@
       name: "CMA Surbhi Sharma",
       role: "Cost & Management Accountant",
       experience: "5+ Years",
-      image: placeholder("female"),
+      image: "assets/img/team/surbhi-sharma.jpg?v=20260801",
+      fallback: "",
       bio: "Cost and management accounting professional focused on budgeting, costing, MIS reporting, financial planning and operational efficiency.",
       expertise: ["Costing", "Budgeting", "MIS & Analysis"]
     },
