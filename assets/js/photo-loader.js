@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',async()=>{for(const img of document.querySelectorAll('img[data-b64-src]')){try{const r=await fetch(img.dataset.b64Src,{cache:'no-store'});if(!r.ok)continue;const b64=(await r.text()).trim();if(!b64)continue;img.src='data:image/jpeg;base64,'+b64;}catch(e){console.error('Team photo load failed',e);}}});
