@@ -24,12 +24,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Restore verified Ayush portrait
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 --decode assets/img/team/ayush-pipalwa-20260802.jpg.b64 > assets/img/team/ayush-pipalwa.jpg
+          cp assets/img/team/ayush-pipalwa.jpg assets/img/team/Ayush.jpeg
+          file assets/img/team/ayush-pipalwa.jpg
+          test "$(head -c 3 assets/img/team/ayush-pipalwa.jpg | xxd -p)" = "ffd8ff"
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
