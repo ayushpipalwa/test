@@ -25,14 +25,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate Ayush portrait
+      - name: Validate approved team portraits
         shell: bash
         run: |
           set -euo pipefail
-          test -s assets/img/team/ayush-pipalwa-20260804.jpg
-          test "$(head -c 3 assets/img/team/ayush-pipalwa-20260804.jpg | xxd -p)" = "ffd8ff"
-          test "$(tail -c 2 assets/img/team/ayush-pipalwa-20260804.jpg | xxd -p)" = "ffd9"
-          file assets/img/team/ayush-pipalwa-20260804.jpg
+          for portrait in \
+            assets/img/team/ayush-pipalwa-20260804.jpg \
+            assets/img/team/surbhi-sharma.jpg
+          do
+            test -s "$portrait"
+            test "$(head -c 3 "$portrait" | xxd -p)" = "ffd8ff"
+            test "$(tail -c 2 "$portrait" | xxd -p)" = "ffd9"
+            file "$portrait"
+          done
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
