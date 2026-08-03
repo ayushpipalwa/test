@@ -25,6 +25,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate Ayush portrait
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s assets/img/team/ayush-pipalwa-20260804.jpg
+          test "$(head -c 3 assets/img/team/ayush-pipalwa-20260804.jpg | xxd -p)" = "ffd8ff"
+          test "$(tail -c 2 assets/img/team/ayush-pipalwa-20260804.jpg | xxd -p)" = "ffd9"
+          file assets/img/team/ayush-pipalwa-20260804.jpg
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
