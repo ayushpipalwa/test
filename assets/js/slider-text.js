@@ -16,8 +16,8 @@ if (floating_text) floating_text.innerHTML = given_text;
     },
     {
       name: "CMA Surbhi Sharma",
-      src: "assets/img/team/surbhi-sharma.jpg?v=20260804-001",
-      position: "center 28%",
+      src: "assets/img/team/surbhi-sharma-20260804-v2.jpg?v=20260804-004",
+      position: "center 30%",
       eager: false,
     },
   ];
@@ -93,15 +93,11 @@ if (floating_text) floating_text.innerHTML = given_text;
     const section = document.getElementById("team");
     if (!section) return false;
 
-    // main.js adds this legacy rule while rebuilding the text-only team cards.
-    // Remove it only after the old carousel nodes have already been replaced.
     const oldHideStyle = document.getElementById("ip-hide-team-photos");
     if (oldHideStyle) oldHideStyle.remove();
 
     installPhotoStyles();
-    return APPROVED_PORTRAITS.every((portrait) =>
-      addPortrait(section, portrait)
-    );
+    return APPROVED_PORTRAITS.every((portrait) => addPortrait(section, portrait));
   };
 
   const keepPortraitsVisible = () => {
