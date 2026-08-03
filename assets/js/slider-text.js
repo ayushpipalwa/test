@@ -3,13 +3,12 @@ var floating_text = document.getElementById("slider-text");
 var given_text = "Trusted tax, legal, compliance and business advisory — all in one place.";
 if (floating_text) floating_text.innerHTML = given_text;
 
-// Add the approved Ayush Pipalwa portrait only after the photo-free team
-// renderer has rebuilt the team cards. All other team cards remain text-only.
+// Add the approved Ayush Pipalwa portrait only to his team card.
 (function () {
   "use strict";
 
   const PHOTO_SRC =
-    "assets/img/team/ayush-pipalwa-20260804.jpg?v=20260804-001";
+    "assets/img/team/ayush-pipalwa-20260804.jpg?v=20260804-002";
 
   const installPhotoStyles = () => {
     if (document.getElementById("ip-ayush-photo-styles")) return;
@@ -39,6 +38,17 @@ if (floating_text) floating_text.innerHTML = given_text;
     document.head.appendChild(style);
   };
 
+  const createImage = () => {
+    const image = document.createElement("img");
+    image.src = PHOTO_SRC;
+    image.alt = "Ayush Pipalwa";
+    image.width = 280;
+    image.height = 350;
+    image.loading = "eager";
+    image.decoding = "async";
+    return image;
+  };
+
   const addAyushPhoto = () => {
     const section = document.getElementById("team");
     if (!section) return false;
@@ -49,44 +59,63 @@ if (floating_text) floating_text.innerHTML = given_text;
       return name && name.textContent.trim() === "Ayush Pipalwa";
     });
 
-    // The dynamic team renderer has not finished yet.
     if (!card) return false;
 
-    // main.js uses this style only to suppress the previous team photographs.
-    // The old image nodes are already removed before the new cards are built.
+    // Remove the obsolete global rule that hides every team image.
     const oldHideStyle = document.getElementById("ip-hide-team-photos");
     if (oldHideStyle) oldHideStyle.remove();
 
     installPhotoStyles();
 
-    if (card.querySelector(".ip-ayush-photo")) return true;
+    let wrapper = card.querySelector(".ip-ayush-photo");
+    if (!wrapper) {
+      wrapper = document.createElement("div");
+      wrapper.className = "ip-ayush-photo";
+      const body = card.querySelector(".ip-profile-body");
+      card.insertBefore(wrapper, body || card.firstChild);
+    }
 
-    const wrapper = document.createElement("div");
-    wrapper.className = "ip-ayush-photo";
+    // main.js may remove the image during its final load cleanup while leaving
+    // the wrapper behind. Recreate the image whenever that happens.
+    let image = wrapper.querySelector("img");
+    if (!image) {
+      image = createImage();
+      wrapper.appendChild(image);
+    } else if (!image.src.includes("ayush-pipalwa-20260804.jpg")) {
+      image.src = PHOTO_SRC;
+    }
 
-    const image = document.createElement("img");
-    image.src = PHOTO_SRC;
-    image.alt = "Ayush Pipalwa";
-    image.width = 280;
-    image.height = 350;
-    image.loading = "eager";
-    image.decoding = "async";
-
-    wrapper.appendChild(image);
     card.classList.add("ip-profile-card-with-photo");
-
-    const body = card.querySelector(".ip-profile-body");
-    card.insertBefore(wrapper, body || card.firstChild);
     return true;
+  };
+
+  const keepPhotoVisible = () => {
+    addAyushPhoto();
+
+    const section = document.getElementById("team");
+    if (!section || section.dataset.ayushPhotoObserver === "active") return;
+
+    section.dataset.ayushPhotoObserver = "active";
+    const observer = new MutationObserver(() => {
+      window.requestAnimationFrame(addAyushPhoto);
+    });
+    observer.observe(section, { childList: true, subtree: true });
   };
 
   document.addEventListener("DOMContentLoaded", () => {
     let attempts = 0;
     const timer = window.setInterval(() => {
       attempts += 1;
-      if (addAyushPhoto() || attempts >= 50) window.clearInterval(timer);
+      if (addAyushPhoto() || attempts >= 50) {
+        window.clearInterval(timer);
+        keepPhotoVisible();
+      }
     }, 100);
   });
 
-  window.addEventListener("load", addAyushPhoto);
+  // Run after all earlier load handlers, including main.js cleanup.
+  window.addEventListener("load", () => {
+    window.setTimeout(keepPhotoVisible, 50);
+    window.setTimeout(keepPhotoVisible, 500);
+  });
 })();
