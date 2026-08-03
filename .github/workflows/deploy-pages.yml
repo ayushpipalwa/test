@@ -25,19 +25,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate approved team portraits
+      - name: Validate live team photo folder
         shell: bash
         run: |
           set -euo pipefail
-          for portrait in \
-            assets/img/team/ayush-pipalwa-20260804.jpg \
-            assets/img/team/surbhi-sharma-20260804-v2.jpg
-          do
+          photo_folder="assets/img/team/live"
+          test -d "$photo_folder"
+
+          photo_count=0
+          while IFS= read -r -d '' portrait; do
+            photo_count=$((photo_count + 1))
             test -s "$portrait"
             test "$(head -c 3 "$portrait" | xxd -p)" = "ffd8ff"
             test "$(tail -c 2 "$portrait" | xxd -p)" = "ffd9"
             file "$portrait"
-          done
+          done < <(find "$photo_folder" -maxdepth 1 -type f -name '*.jpg' -print0)
+
+          test "$photo_count" -gt 0
+          echo "Validated $photo_count live team portrait(s)."
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
