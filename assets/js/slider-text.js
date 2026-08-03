@@ -3,115 +3,139 @@ var floating_text = document.getElementById("slider-text");
 var given_text = "Trusted tax, legal, compliance and business advisory — all in one place.";
 if (floating_text) floating_text.innerHTML = given_text;
 
-// Add the approved Ayush Pipalwa portrait only to his team card.
+// Publish only the team portraits that have been individually approved.
 (function () {
   "use strict";
 
-  const PHOTO_SRC =
-    "assets/img/team/ayush-pipalwa-20260804.jpg?v=20260804-003";
+  const APPROVED_PORTRAITS = [
+    {
+      name: "Ayush Pipalwa",
+      src: "assets/img/team/ayush-pipalwa-20260804.jpg?v=20260804-003",
+      position: "center top",
+      eager: true,
+    },
+    {
+      name: "CMA Surbhi Sharma",
+      src: "assets/img/team/surbhi-sharma.jpg?v=20260804-001",
+      position: "center 28%",
+      eager: false,
+    },
+  ];
 
   const installPhotoStyles = () => {
-    if (document.getElementById("ip-ayush-photo-styles")) return;
+    if (document.getElementById("ip-approved-team-photo-styles")) return;
 
     const style = document.createElement("style");
-    style.id = "ip-ayush-photo-styles";
+    style.id = "ip-approved-team-photo-styles";
     style.textContent = `
       #team .ip-profile-card-with-photo { overflow: hidden; }
-      #team .ip-ayush-photo {
+      #team .ip-approved-team-photo {
         width: 100%;
         height: 330px;
         overflow: hidden;
         background: #eef2f7;
         border-radius: 20px 20px 0 0;
       }
-      #team .ip-ayush-photo img {
+      #team .ip-approved-team-photo img {
         display: block !important;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center top;
       }
       @media (max-width: 575px) {
-        #team .ip-ayush-photo { height: 360px; }
+        #team .ip-approved-team-photo { height: 360px; }
       }
     `;
     document.head.appendChild(style);
   };
 
-  const createImage = () => {
-    const image = document.createElement("img");
-    image.src = PHOTO_SRC;
-    image.alt = "Ayush Pipalwa";
-    image.width = 280;
-    image.height = 350;
-    image.loading = "eager";
-    image.decoding = "async";
-    return image;
-  };
-
-  const addAyushPhoto = () => {
-    const section = document.getElementById("team");
-    if (!section) return false;
-
-    const cards = Array.from(section.querySelectorAll(".ip-profile-card"));
-    const card = cards.find((item) => {
-      const name = item.querySelector(".ip-profile-name");
-      return name && name.textContent.trim() === "Ayush Pipalwa";
+  const findCard = (section, memberName) =>
+    Array.from(section.querySelectorAll(".ip-profile-card")).find((card) => {
+      const name = card.querySelector(".ip-profile-name");
+      return name && name.textContent.trim() === memberName;
     });
 
+  const addPortrait = (section, portrait) => {
+    const card = findCard(section, portrait.name);
     if (!card) return false;
 
-    const oldHideStyle = document.getElementById("ip-hide-team-photos");
-    if (oldHideStyle) oldHideStyle.remove();
+    let wrapper = card.querySelector(
+      `.ip-approved-team-photo[data-member="${portrait.name}"]`
+    );
 
-    installPhotoStyles();
-
-    let wrapper = card.querySelector(".ip-ayush-photo");
     if (!wrapper) {
       wrapper = document.createElement("div");
-      wrapper.className = "ip-ayush-photo";
+      wrapper.className = "ip-approved-team-photo";
+      wrapper.dataset.member = portrait.name;
       const body = card.querySelector(".ip-profile-body");
       card.insertBefore(wrapper, body || card.firstChild);
     }
 
     let image = wrapper.querySelector("img");
     if (!image) {
-      image = createImage();
+      image = document.createElement("img");
       wrapper.appendChild(image);
-    } else if (image.getAttribute("src") !== PHOTO_SRC) {
-      image.src = PHOTO_SRC;
     }
+
+    if (image.getAttribute("src") !== portrait.src) image.src = portrait.src;
+    image.alt = portrait.name;
+    image.width = 280;
+    image.height = 350;
+    image.loading = portrait.eager ? "eager" : "lazy";
+    image.decoding = "async";
+    image.style.objectPosition = portrait.position;
 
     card.classList.add("ip-profile-card-with-photo");
     return true;
   };
 
-  const keepPhotoVisible = () => {
-    addAyushPhoto();
+  const addApprovedPortraits = () => {
+    const section = document.getElementById("team");
+    if (!section) return false;
+
+    // main.js adds this legacy rule while rebuilding the text-only team cards.
+    // Remove it only after the old carousel nodes have already been replaced.
+    const oldHideStyle = document.getElementById("ip-hide-team-photos");
+    if (oldHideStyle) oldHideStyle.remove();
+
+    installPhotoStyles();
+    return APPROVED_PORTRAITS.every((portrait) =>
+      addPortrait(section, portrait)
+    );
+  };
+
+  const keepPortraitsVisible = () => {
+    addApprovedPortraits();
 
     const section = document.getElementById("team");
-    if (!section || section.dataset.ayushPhotoObserver === "active") return;
+    if (!section || section.dataset.approvedPhotoObserver === "active") return;
 
-    section.dataset.ayushPhotoObserver = "active";
+    section.dataset.approvedPhotoObserver = "active";
     const observer = new MutationObserver(() => {
-      window.requestAnimationFrame(addAyushPhoto);
+      window.requestAnimationFrame(addApprovedPortraits);
     });
     observer.observe(section, { childList: true, subtree: true });
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
+  const startPortraitLoader = () => {
     let attempts = 0;
     const timer = window.setInterval(() => {
       attempts += 1;
-      if (addAyushPhoto() || attempts >= 50) {
+      if (addApprovedPortraits() || attempts >= 60) {
         window.clearInterval(timer);
-        keepPhotoVisible();
+        keepPortraitsVisible();
       }
     }, 100);
-  });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startPortraitLoader);
+  } else {
+    startPortraitLoader();
+  }
 
   window.addEventListener("load", () => {
-    window.setTimeout(keepPhotoVisible, 50);
-    window.setTimeout(keepPhotoVisible, 500);
+    window.setTimeout(keepPortraitsVisible, 50);
+    window.setTimeout(keepPortraitsVisible, 500);
   });
 })();
