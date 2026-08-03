@@ -13,6 +13,12 @@
 
   const onscroll = (el, listener) => el.addEventListener("scroll", listener);
 
+  const teamPhotoVisibilityStyle = document.createElement("style");
+  teamPhotoVisibilityStyle.id = "ip-hide-team-photos";
+  teamPhotoVisibilityStyle.textContent =
+    "#team .member-img,#team .ip-profile-photo{display:none!important}";
+  document.head.appendChild(teamPhotoVisibilityStyle);
+
   const navbarlinks = select("#navbar .scrollto", true);
   const navbarlinksActive = () => {
     const position = window.scrollY + 200;
