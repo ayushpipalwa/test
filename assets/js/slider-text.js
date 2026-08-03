@@ -16,7 +16,7 @@ if (floating_text) floating_text.innerHTML = given_text;
     },
     {
       name: "CMA Surbhi Sharma",
-      src: "assets/img/team/surbhi-sharma-20260804-v2.jpg?v=20260804-004",
+      src: "assets/img/team/surbhi-sharma-20260804-v2.jpg?v=20260804-005",
       position: "center 30%",
       eager: false,
     },
