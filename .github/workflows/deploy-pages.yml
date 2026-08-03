@@ -31,7 +31,7 @@ jobs:
           set -euo pipefail
           for portrait in \
             assets/img/team/ayush-pipalwa-20260804.jpg \
-            assets/img/team/surbhi-sharma.jpg
+            assets/img/team/surbhi-sharma-20260804-v2.jpg
           do
             test -s "$portrait"
             test "$(head -c 3 "$portrait" | xxd -p)" = "ffd8ff"
