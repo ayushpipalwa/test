@@ -8,7 +8,7 @@ if (floating_text) floating_text.innerHTML = given_text;
   "use strict";
 
   const PHOTO_SRC =
-    "assets/img/team/ayush-pipalwa-20260804.jpg?v=20260804-002";
+    "assets/img/team/ayush-pipalwa-20260804.jpg?v=20260804-003";
 
   const installPhotoStyles = () => {
     if (document.getElementById("ip-ayush-photo-styles")) return;
@@ -61,7 +61,6 @@ if (floating_text) floating_text.innerHTML = given_text;
 
     if (!card) return false;
 
-    // Remove the obsolete global rule that hides every team image.
     const oldHideStyle = document.getElementById("ip-hide-team-photos");
     if (oldHideStyle) oldHideStyle.remove();
 
@@ -75,13 +74,11 @@ if (floating_text) floating_text.innerHTML = given_text;
       card.insertBefore(wrapper, body || card.firstChild);
     }
 
-    // main.js may remove the image during its final load cleanup while leaving
-    // the wrapper behind. Recreate the image whenever that happens.
     let image = wrapper.querySelector("img");
     if (!image) {
       image = createImage();
       wrapper.appendChild(image);
-    } else if (!image.src.includes("ayush-pipalwa-20260804.jpg")) {
+    } else if (image.getAttribute("src") !== PHOTO_SRC) {
       image.src = PHOTO_SRC;
     }
 
@@ -113,7 +110,6 @@ if (floating_text) floating_text.innerHTML = given_text;
     }, 100);
   });
 
-  // Run after all earlier load handlers, including main.js cleanup.
   window.addEventListener("load", () => {
     window.setTimeout(keepPhotoVisible, 50);
     window.setTimeout(keepPhotoVisible, 500);
