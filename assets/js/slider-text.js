@@ -3,19 +3,19 @@ var floating_text = document.getElementById("slider-text");
 var given_text = "Trusted tax, legal, compliance and business advisory — all in one place.";
 if (floating_text) floating_text.innerHTML = given_text;
 
-// Approved team portraits. This supports both the redesigned profile cards
-// and the legacy team markup still present in index.html.
+// Approved team portraits and clean display names.
 (function () {
   "use strict";
 
-  const PHOTO_VERSION = "20260805-0230";
+  const PHOTO_VERSION = "20260805-0235";
   const APPROVED_PHOTOS = {
     "Ayush Pipalwa": "assets/img/team/live/ayush-pipalwa.jpg",
     "Surbhi Sharma": "assets/img/team/live/surbhi-sharma.jpg",
-    "CMA Surbhi Sharma": "assets/img/team/live/surbhi-sharma.jpg",
-    "Mayank Jain": "assets/img/team/live/mayank-jain.jpg",
-    "CA Mayank Jain": "assets/img/team/live/mayank-jain.jpg"
+    "Mayank Jain": "assets/img/team/live/mayank-jain.jpg"
   };
+
+  const cleanDisplayName = (name) =>
+    name.trim().replace(/^(CA|CMA|CS)\s+/i, "").trim();
 
   const installStyles = () => {
     if (document.getElementById("ip-approved-team-photo-styles")) return;
@@ -46,12 +46,17 @@ if (floating_text) floating_text.innerHTML = given_text;
     document.head.appendChild(style);
   };
 
-  const photoForName = (name) => APPROVED_PHOTOS[name.trim()] || null;
+  const normalizeHeading = (heading) => {
+    const cleanName = cleanDisplayName(heading.textContent);
+    if (heading.textContent.trim() !== cleanName) heading.textContent = cleanName;
+    return cleanName;
+  };
 
   const updateLegacyCard = (card) => {
     const heading = card.querySelector(".member-info h4, h4");
     if (!heading) return;
-    const path = photoForName(heading.textContent);
+    const memberName = normalizeHeading(heading);
+    const path = APPROVED_PHOTOS[memberName] || null;
     if (!path) return;
 
     const holder = card.querySelector(".member-img");
@@ -62,7 +67,7 @@ if (floating_text) floating_text.innerHTML = given_text;
       holder.insertBefore(image, holder.firstChild);
     }
     image.src = `${path}?v=${PHOTO_VERSION}`;
-    image.alt = heading.textContent.trim();
+    image.alt = memberName;
     image.classList.add("img-fluid", "ip-approved-photo");
     image.width = 400;
     image.height = 500;
@@ -73,7 +78,8 @@ if (floating_text) floating_text.innerHTML = given_text;
   const updateProfileCard = (card) => {
     const heading = card.querySelector(".ip-profile-name");
     if (!heading) return;
-    const path = photoForName(heading.textContent);
+    const memberName = normalizeHeading(heading);
+    const path = APPROVED_PHOTOS[memberName] || null;
     if (!path) return;
 
     let wrapper = card.querySelector(".ip-folder-team-photo");
@@ -90,7 +96,7 @@ if (floating_text) floating_text.innerHTML = given_text;
       wrapper.appendChild(image);
     }
     image.src = `${path}?v=${PHOTO_VERSION}`;
-    image.alt = heading.textContent.trim();
+    image.alt = memberName;
     image.width = 400;
     image.height = 500;
     image.loading = "eager";
@@ -99,7 +105,7 @@ if (floating_text) floating_text.innerHTML = given_text;
     card.classList.add("ip-profile-card-with-photo");
   };
 
-  const syncPhotos = () => {
+  const syncTeam = () => {
     const section = document.getElementById("team");
     if (!section) return false;
 
@@ -109,15 +115,16 @@ if (floating_text) floating_text.innerHTML = given_text;
 
     section.querySelectorAll(".ip-profile-card").forEach(updateProfileCard);
     section.querySelectorAll(".member").forEach(updateLegacyCard);
+    section.querySelectorAll(".ip-profile-name, .member-info h4").forEach(normalizeHeading);
     return true;
   };
 
   const start = () => {
-    syncPhotos();
+    syncTeam();
     const section = document.getElementById("team");
     if (!section || section.dataset.approvedPhotoObserver === "active") return;
     section.dataset.approvedPhotoObserver = "active";
-    const observer = new MutationObserver(() => window.requestAnimationFrame(syncPhotos));
+    const observer = new MutationObserver(() => window.requestAnimationFrame(syncTeam));
     observer.observe(section, { childList: true, subtree: true });
   };
 
