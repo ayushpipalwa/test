@@ -7,10 +7,10 @@ if (floating_text) floating_text.innerHTML = given_text;
 (function () {
   "use strict";
 
-  const PHOTO_VERSION = "20260805-0235";
+  const PHOTO_VERSION = "20260805-0240";
   const APPROVED_PHOTOS = {
     "Ayush Pipalwa": "assets/img/team/live/ayush-pipalwa.jpg",
-    "Surbhi Sharma": "assets/img/team/live/surbhi-sharma.jpg",
+    "Surbhi Sharma": "assets/img/team/live/surbhi-sharma.png",
     "Mayank Jain": "assets/img/team/live/mayank-jain.jpg"
   };
 
