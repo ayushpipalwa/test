@@ -8,12 +8,13 @@ if (floating_text) floating_text.innerHTML = given_text;
 (function () {
   "use strict";
 
-  const PHOTO_VERSION = "20260805-0210";
+  const PHOTO_VERSION = "20260805-0230";
   const APPROVED_PHOTOS = {
     "Ayush Pipalwa": "assets/img/team/live/ayush-pipalwa.jpg",
     "Surbhi Sharma": "assets/img/team/live/surbhi-sharma.jpg",
     "CMA Surbhi Sharma": "assets/img/team/live/surbhi-sharma.jpg",
-    "Mayank Jain": "assets/img/team/live/mayank-jain.jpg"
+    "Mayank Jain": "assets/img/team/live/mayank-jain.jpg",
+    "CA Mayank Jain": "assets/img/team/live/mayank-jain.jpg"
   };
 
   const installStyles = () => {
