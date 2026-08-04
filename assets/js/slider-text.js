@@ -3,58 +3,76 @@ var floating_text = document.getElementById("slider-text");
 var given_text = "Trusted tax, legal, compliance and business advisory — all in one place.";
 if (floating_text) floating_text.innerHTML = given_text;
 
-// Folder-based team photo system.
-// To add or replace a portrait, upload one JPEG to:
-// assets/img/team/live/<member-name>.jpg
-// Example: CMA Surbhi Sharma -> surbhi-sharma.jpg
+// Approved team portraits. This supports both the redesigned profile cards
+// and the legacy team markup still present in index.html.
 (function () {
   "use strict";
 
-  const PHOTO_FOLDER = "assets/img/team/live/";
-  const PAGE_CACHE_KEY = Date.now().toString(36);
+  const PHOTO_VERSION = "20260804-1303";
+  const APPROVED_PHOTOS = {
+    "Ayush Pipalwa": "assets/img/team/live/ayush-pipalwa.jpg",
+    "Surbhi Sharma": "assets/img/team/live/surbhi-sharma.jpg",
+    "CMA Surbhi Sharma": "assets/img/team/live/surbhi-sharma.jpg"
+  };
 
-  const slugifyMemberName = (name) =>
-    name
-      .replace(/^(CA|CMA|CS)\s+/i, "")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-
-  const installPhotoStyles = () => {
-    if (document.getElementById("ip-team-photo-folder-styles")) return;
-
+  const installStyles = () => {
+    if (document.getElementById("ip-approved-team-photo-styles")) return;
     const style = document.createElement("style");
-    style.id = "ip-team-photo-folder-styles";
+    style.id = "ip-approved-team-photo-styles";
     style.textContent = `
-      #team .ip-profile-card-with-photo { overflow: hidden; }
       #team .ip-folder-team-photo {
         width: 100%;
-        height: 330px;
+        height: 350px;
         overflow: hidden;
         background: #eef2f7;
         border-radius: 20px 20px 0 0;
       }
-      #team .ip-folder-team-photo img {
+      #team .ip-folder-team-photo img,
+      #team .member-img > img.ip-approved-photo {
         display: block !important;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center top;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center top !important;
       }
+      #team .member-img { height: 350px; overflow: hidden; }
       @media (max-width: 575px) {
-        #team .ip-folder-team-photo { height: 360px; }
+        #team .ip-folder-team-photo,
+        #team .member-img { height: 380px; }
       }
     `;
     document.head.appendChild(style);
   };
 
-  const addPhotoToCard = (card) => {
+  const photoForName = (name) => APPROVED_PHOTOS[name.trim()] || null;
+
+  const updateLegacyCard = (card) => {
+    const heading = card.querySelector(".member-info h4, h4");
+    if (!heading) return;
+    const path = photoForName(heading.textContent);
+    if (!path) return;
+
+    const holder = card.querySelector(".member-img");
+    if (!holder) return;
+    let image = holder.querySelector(":scope > img");
+    if (!image) {
+      image = document.createElement("img");
+      holder.insertBefore(image, holder.firstChild);
+    }
+    image.src = `${path}?v=${PHOTO_VERSION}`;
+    image.alt = heading.textContent.trim();
+    image.classList.add("img-fluid", "ip-approved-photo");
+    image.width = 400;
+    image.height = 500;
+    image.loading = "eager";
+    image.decoding = "async";
+  };
+
+  const updateProfileCard = (card) => {
     const heading = card.querySelector(".ip-profile-name");
     if (!heading) return;
-
-    const memberName = heading.textContent.trim();
-    const slug = slugifyMemberName(memberName);
-    if (!slug) return;
+    const path = photoForName(heading.textContent);
+    if (!path) return;
 
     let wrapper = card.querySelector(".ip-folder-team-photo");
     if (!wrapper) {
@@ -69,63 +87,36 @@ if (floating_text) floating_text.innerHTML = given_text;
       image = document.createElement("img");
       wrapper.appendChild(image);
     }
-
-    const photoUrl = `${PHOTO_FOLDER}${slug}.jpg?v=${PAGE_CACHE_KEY}`;
-    if (image.getAttribute("src") !== photoUrl) image.src = photoUrl;
-
-    image.alt = memberName;
-    image.width = 280;
-    image.height = 350;
-    image.loading = slug === "ayush-pipalwa" ? "eager" : "lazy";
+    image.src = `${path}?v=${PHOTO_VERSION}`;
+    image.alt = heading.textContent.trim();
+    image.width = 400;
+    image.height = 500;
+    image.loading = "eager";
     image.decoding = "async";
-
-    image.onload = () => {
-      wrapper.hidden = false;
-      card.classList.add("ip-profile-card-with-photo");
-    };
-
-    image.onerror = () => {
-      wrapper.remove();
-      card.classList.remove("ip-profile-card-with-photo");
-    };
+    wrapper.hidden = false;
+    card.classList.add("ip-profile-card-with-photo");
   };
 
-  const loadTeamPhotos = () => {
+  const syncPhotos = () => {
     const section = document.getElementById("team");
     if (!section) return false;
 
     const oldHideStyle = document.getElementById("ip-hide-team-photos");
     if (oldHideStyle) oldHideStyle.remove();
+    installStyles();
 
-    installPhotoStyles();
-    const cards = section.querySelectorAll(".ip-profile-card");
-    if (!cards.length) return false;
-
-    cards.forEach(addPhotoToCard);
+    section.querySelectorAll(".ip-profile-card").forEach(updateProfileCard);
+    section.querySelectorAll(".member").forEach(updateLegacyCard);
     return true;
   };
 
-  const keepPhotosSynced = () => {
-    loadTeamPhotos();
-    const section = document.getElementById("team");
-    if (!section || section.dataset.photoFolderObserver === "active") return;
-
-    section.dataset.photoFolderObserver = "active";
-    const observer = new MutationObserver(() => {
-      window.requestAnimationFrame(loadTeamPhotos);
-    });
-    observer.observe(section, { childList: true, subtree: true });
-  };
-
   const start = () => {
-    let attempts = 0;
-    const timer = window.setInterval(() => {
-      attempts += 1;
-      if (loadTeamPhotos() || attempts >= 60) {
-        window.clearInterval(timer);
-        keepPhotosSynced();
-      }
-    }, 100);
+    syncPhotos();
+    const section = document.getElementById("team");
+    if (!section || section.dataset.approvedPhotoObserver === "active") return;
+    section.dataset.approvedPhotoObserver = "active";
+    const observer = new MutationObserver(() => window.requestAnimationFrame(syncPhotos));
+    observer.observe(section, { childList: true, subtree: true });
   };
 
   if (document.readyState === "loading") {
@@ -133,9 +124,8 @@ if (floating_text) floating_text.innerHTML = given_text;
   } else {
     start();
   }
-
   window.addEventListener("load", () => {
-    window.setTimeout(keepPhotosSynced, 50);
-    window.setTimeout(keepPhotosSynced, 500);
+    window.setTimeout(start, 50);
+    window.setTimeout(start, 500);
   });
 })();
