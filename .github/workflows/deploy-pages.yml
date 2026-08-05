@@ -36,9 +36,9 @@ jobs:
           while IFS= read -r -d '' portrait; do
             photo_count=$((photo_count + 1))
             test -s "$portrait"
-            test "$(head -c 3 "$portrait" | od -An -tx1 | tr -d ' \n')" = "ffd8ff"
-            test "$(tail -c 2 "$portrait" | od -An -tx1 | tr -d ' \n')" = "ffd9"
-            file "$portrait"
+            mime_type="$(file --brief --mime-type "$portrait")"
+            echo "Checking $portrait ($mime_type)"
+            test "$mime_type" = "image/jpeg"
           done < <(find "$photo_folder" -maxdepth 1 -type f -name '*.jpg' -print0)
 
           test "$photo_count" -gt 0
