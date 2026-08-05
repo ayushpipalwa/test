@@ -7,13 +7,14 @@ if (floating_text) floating_text.innerHTML = given_text;
 (function () {
   "use strict";
 
-  const PHOTO_VERSION = "20260805-0248";
+  const PHOTO_VERSION = "20260806-0034";
   const APPROVED_PHOTOS = {
     "Ayush Pipalwa": "assets/img/team/live/ayush-pipalwa.jpg",
-    "Surbhi Sharma": "assets/img/team/live/surbhi-sharma.png",
+    "Renu Sharma": "assets/img/team/live/renu-sharma.jpg",
+    "Navdha Puri": "assets/img/team/live/navdha-puri.jpg",
     "Mayank Jain": "assets/img/team/live/mayank-jain.jpg",
     "Mayank Hoiyani": "assets/img/team/live/mayank-hoiyani.jpg",
-    "Renu Sharma": "assets/img/team/live/renu-sharma.jpg"
+    "Surbhi Sharma": "assets/img/team/live/surbhi-sharma.png"
   };
 
   const cleanDisplayName = (name) =>
