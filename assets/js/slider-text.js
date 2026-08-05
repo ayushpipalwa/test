@@ -7,7 +7,7 @@ if (floating_text) floating_text.innerHTML = given_text;
 (function () {
   "use strict";
 
-  const PHOTO_VERSION = "20260806-0034";
+  const PHOTO_VERSION = "20260806-0148";
   const APPROVED_PHOTOS = {
     "Ayush Pipalwa": "assets/img/team/live/ayush-pipalwa.jpg",
     "Renu Sharma": "assets/img/team/live/renu-sharma.jpg",
@@ -39,6 +39,7 @@ if (floating_text) floating_text.innerHTML = given_text;
         height: 100% !important;
         object-fit: cover !important;
         object-position: center top !important;
+        image-rendering: auto !important;
       }
       #team .member-img { height: 350px; overflow: hidden; }
       @media (max-width: 575px) {
