@@ -1,4 +1,4 @@
 Instant Professionals deployment
-Build: 2026-08-04T02:50+05:30
+Build: 2026-08-06T02:51+05:30
 Photo system: assets/img/team/live/<member-name>.jpg
-Surbhi: assets/img/team/live/surbhi-sharma.jpg
+Latest update: Nisha Pal portrait mapping enabled
