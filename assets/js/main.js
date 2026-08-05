@@ -169,7 +169,7 @@
       expertise: ["GST Advisory", "Indirect Tax", "Tax Litigation"],
     },
     {
-      name: "CA Navdha Pahwa",
+      name: "CA Navdha Puri",
       role: "Audit & Assurance Advisor",
       experience: "15+ Years",
       bio: "Experienced Chartered Accountant focused on statutory audits, internal audits and assurance engagements, with an emphasis on strong controls, accurate reporting and practical risk-based recommendations.",
