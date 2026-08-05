@@ -1,92 +1,8 @@
-// Homepage announcement text
-var floating_text = document.getElementById("slider-text");
-var given_text = "Trusted tax, legal, compliance and business advisory — all in one place.";
-if (floating_text) floating_text.innerHTML = given_text;
-
-// Replace the legacy promotional carousel with an evergreen, conversion-focused hero.
+// Instant Professionals brand presentation and approved team portraits.
 (function () {
   "use strict";
 
-  const installHero = () => {
-    const hero = document.getElementById("carouselExampleCaptions");
-    if (!hero || hero.dataset.ipHeroUpdated === "true") return;
-
-    hero.dataset.ipHeroUpdated = "true";
-    hero.removeAttribute("data-bs-ride");
-    hero.className = "ip-modern-hero";
-    hero.removeAttribute("style");
-    hero.innerHTML = `
-      <div class="ip-hero-shell container">
-        <div class="ip-hero-copy">
-          <span class="ip-hero-kicker">Professional Advisory • India</span>
-          <h1>Compliance made clear.<br><span>Business decisions made stronger.</span></h1>
-          <p>Practical support for taxation, corporate and secretarial compliance, audits, risk advisory, intellectual property and business consulting—all coordinated through one professional team.</p>
-          <div class="ip-hero-actions">
-            <a class="ip-primary-action" href="#services">Explore Services</a>
-            <a class="ip-secondary-action" href="#contact">Speak with an Advisor</a>
-          </div>
-          <div class="ip-hero-trust">
-            <span><i class="bi bi-shield-check"></i> Confidential & reliable</span>
-            <span><i class="bi bi-people"></i> Multidisciplinary experts</span>
-            <span><i class="bi bi-lightning-charge"></i> Timely execution</span>
-          </div>
-        </div>
-        <div class="ip-hero-panel" aria-label="Core advisory services">
-          <div class="ip-panel-heading">How we support your business</div>
-          <div class="ip-service-grid">
-            <a href="#services"><i class="bi bi-building-check"></i><strong>Corporate Compliance</strong><small>Companies, LLPs and governance</small></a>
-            <a href="#services"><i class="bi bi-receipt"></i><strong>Tax & GST Advisory</strong><small>Compliance, advisory and litigation</small></a>
-            <a href="#team"><i class="bi bi-clipboard2-check"></i><strong>Audit & Assurance</strong><small>Statutory, internal and risk reviews</small></a>
-            <a href="#services"><i class="bi bi-graph-up-arrow"></i><strong>Business Consulting</strong><small>Controls, strategy and growth support</small></a>
-          </div>
-          <div class="ip-panel-note"><i class="bi bi-check-circle-fill"></i> Advice designed around your actual business needs—not generic checklists.</div>
-        </div>
-      </div>`;
-
-    if (!document.getElementById("ip-modern-hero-styles")) {
-      const style = document.createElement("style");
-      style.id = "ip-modern-hero-styles";
-      style.textContent = `
-        .ip-modern-hero{position:relative;overflow:hidden;padding:150px 0 82px;background:radial-gradient(circle at 88% 14%,rgba(202,147,53,.20),transparent 29%),linear-gradient(135deg,#071a31 0%,#0d3155 58%,#124a72 100%);color:#fff;min-height:700px;display:flex;align-items:center}
-        .ip-modern-hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
-        .ip-modern-hero:after{content:"";position:absolute;width:520px;height:520px;border:1px solid rgba(255,255,255,.11);border-radius:50%;right:-230px;bottom:-290px;box-shadow:0 0 0 70px rgba(255,255,255,.025),0 0 0 140px rgba(255,255,255,.018)}
-        .ip-hero-shell{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(360px,.82fr);gap:66px;align-items:center}
-        .ip-hero-kicker{display:inline-flex;align-items:center;padding:8px 13px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(255,255,255,.08);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#f2c978;margin-bottom:22px}
-        .ip-hero-copy h1{font-family:Poppins,sans-serif;font-size:58px;line-height:1.08;font-weight:800;letter-spacing:-1.8px;margin:0 0 22px;color:#fff}
-        .ip-hero-copy h1 span{color:#efbd5f}
-        .ip-hero-copy>p{max-width:760px;color:rgba(255,255,255,.82);font-size:18px;line-height:1.75;margin:0 0 30px}
-        .ip-hero-actions{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:30px}
-        .ip-hero-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border-radius:9px;font-weight:800;transition:.22s ease;text-decoration:none}
-        .ip-primary-action{background:#d99b30;color:#071a31!important;box-shadow:0 12px 30px rgba(0,0,0,.2)}
-        .ip-primary-action:hover{transform:translateY(-2px);background:#efb44a}
-        .ip-secondary-action{border:1px solid rgba(255,255,255,.45);color:#fff!important;background:rgba(255,255,255,.06)}
-        .ip-secondary-action:hover{background:#fff;color:#0d3155!important}
-        .ip-hero-trust{display:flex;flex-wrap:wrap;gap:18px;color:rgba(255,255,255,.78);font-size:13px;font-weight:700}
-        .ip-hero-trust span{display:inline-flex;align-items:center;gap:7px}.ip-hero-trust i{color:#f0bd5d;font-size:16px}
-        .ip-hero-panel{background:rgba(255,255,255,.96);color:#102a43;border-radius:24px;padding:26px;box-shadow:0 30px 70px rgba(0,0,0,.26);border:1px solid rgba(255,255,255,.65)}
-        .ip-panel-heading{font-family:Poppins,sans-serif;font-size:20px;font-weight:800;margin-bottom:17px;color:#0d3155}
-        .ip-service-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-        .ip-service-grid a{display:flex;flex-direction:column;min-height:150px;padding:17px;border:1px solid #e0e8ef;border-radius:14px;background:#fff;text-decoration:none;transition:.22s ease;color:#102a43}
-        .ip-service-grid a:hover{transform:translateY(-3px);border-color:#d7a24c;box-shadow:0 12px 24px rgba(13,49,85,.10)}
-        .ip-service-grid i{font-size:25px;color:#bd7d18;margin-bottom:12px}.ip-service-grid strong{font-size:14px;margin-bottom:5px}.ip-service-grid small{color:#687787;line-height:1.45}
-        .ip-panel-note{margin-top:15px;padding:13px 14px;border-radius:11px;background:#eef5f9;color:#345269;font-size:12px;font-weight:700;line-height:1.5}.ip-panel-note i{color:#2f7b5b;margin-right:6px}
-        @media(max-width:991px){.ip-modern-hero{padding:135px 0 70px}.ip-hero-shell{grid-template-columns:1fr;gap:38px}.ip-hero-copy h1{font-size:48px}.ip-hero-panel{max-width:720px}}
-        @media(max-width:575px){.ip-modern-hero{padding:120px 0 55px;min-height:auto}.ip-hero-copy h1{font-size:37px;letter-spacing:-1px}.ip-hero-copy>p{font-size:16px}.ip-service-grid{grid-template-columns:1fr}.ip-service-grid a{min-height:auto}.ip-hero-panel{padding:18px}.ip-hero-trust{flex-direction:column;gap:9px}}
-      `;
-      document.head.appendChild(style);
-    }
-  };
-
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", installHero);
-  else installHero();
-  window.addEventListener("load", installHero);
-})();
-
-// Approved team portraits and clean display names.
-(function () {
-  "use strict";
-
-  const PHOTO_VERSION = "20260806-0251";
+  const PHOTO_VERSION = "20260806-0315";
   const APPROVED_PHOTOS = {
     "Ayush Pipalwa": "assets/img/team/live/ayush-pipalwa.jpg",
     "Renu Sharma": "assets/img/team/live/renu-sharma.jpg",
@@ -98,128 +14,164 @@ if (floating_text) floating_text.innerHTML = given_text;
     "Nisha Pal": "assets/img/team/live/nisha-pal.jpg"
   };
 
-  const cleanDisplayName = (name) =>
-    name.trim().replace(/^(CA|CMA|CS)\s+/i, "").trim();
+  const cleanName = (value) => value.trim().replace(/^(CA|CMA|CS)\s+/i, "").trim();
 
-  const installStyles = () => {
-    if (document.getElementById("ip-approved-team-photo-styles")) return;
+  const installBrandStyles = () => {
+    if (document.getElementById("ip-brand-system-2026")) return;
     const style = document.createElement("style");
-    style.id = "ip-approved-team-photo-styles";
+    style.id = "ip-brand-system-2026";
     style.textContent = `
-      #team .ip-folder-team-photo {
-        width: 100%;
-        height: 350px;
-        overflow: hidden;
-        background: #eef2f7;
-        border-radius: 20px 20px 0 0;
-      }
-      #team .ip-folder-team-photo img,
-      #team .member-img > img.ip-approved-photo {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-        object-position: center top !important;
-        image-rendering: auto !important;
-      }
-      #team .member-img { height: 350px; overflow: hidden; }
-      @media (max-width: 575px) {
-        #team .ip-folder-team-photo,
-        #team .member-img { height: 380px; }
-      }
+      :root{--ip-navy:#071b3f;--ip-navy-2:#0d3157;--ip-green:#55b84f;--ip-green-dark:#318c3c;--ip-ink:#172b3d;--ip-muted:#647482;--ip-soft:#f5f8f6;--ip-border:#dfe8e2}
+      body{font-family:"Open Sans",sans-serif;color:var(--ip-ink);background:#fff}
+      h1,h2,h3,h4,h5,h6{font-family:"Poppins",sans-serif;color:var(--ip-navy)}
+      a{transition:color .2s ease,background .2s ease,border-color .2s ease,transform .2s ease}
+      #header{height:82px;background:rgba(255,255,255,.97)!important;border-bottom:1px solid rgba(7,27,63,.08);box-shadow:0 8px 26px rgba(7,27,63,.08)!important;backdrop-filter:blur(12px)}
+      #header.header-scrolled{background:rgba(255,255,255,.98)!important}
+      #header .logo-brand{margin-top:0;display:flex;align-items:center}
+      #header .logo-brand img{width:68px!important;height:68px!important;max-height:68px!important;object-fit:contain;border-radius:50%;background:#fff}
+      .navbar a,.navbar a:focus{font-family:"Poppins",sans-serif;font-size:13px;font-weight:600;color:var(--ip-navy)!important;border-radius:9px}
+      .navbar a:hover,.navbar .active,.navbar .active:focus,.navbar li:hover>a{background:rgba(85,184,79,.11)!important;color:var(--ip-green-dark)!important}
+      .navbar .dropdown ul{border:1px solid var(--ip-border);border-radius:16px;box-shadow:0 20px 52px rgba(7,27,63,.14)}
+      .navbar .dropdown ul a{color:var(--ip-ink)!important;border-radius:8px}
+      .navbar .dropdown ul a:hover,.navbar .dropdown ul li:hover>a{background:rgba(85,184,79,.1)!important;color:var(--ip-green-dark)!important}
+      .mobile-nav-toggle{color:var(--ip-navy)!important}
+      section{padding:76px 0}
+      .section-title h2{color:var(--ip-green-dark);font-weight:700}
+      .section-title h2::after{background:var(--ip-green)}
+      .section-title p{color:var(--ip-navy);text-transform:none;letter-spacing:-.5px}
+      .services .icon-box,.features .icon-box,.pricing .box,.member,.ip-profile-card{border:1px solid var(--ip-border)!important;border-radius:18px!important;box-shadow:0 10px 30px rgba(7,27,63,.07)!important;background:#fff!important}
+      .services .icon-box:hover,.features .icon-box:hover,.pricing .box:hover,.member:hover,.ip-profile-card:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(7,27,63,.12)!important;border-color:rgba(85,184,79,.5)!important}
+      .services .icon-box h4 a,.features h4,.pricing h3{color:var(--ip-navy)!important}
+      .services .icon-box .icon i,.features .icon-box i{color:var(--ip-green-dark)!important}
+      .btn-get-started,.btn-learn-more,.pricing .btn-buy,.contact button[type=submit]{background:var(--ip-green)!important;border-color:var(--ip-green)!important;color:#071b3f!important;font-family:"Poppins",sans-serif;font-weight:700!important;border-radius:9px!important}
+      .btn-get-started:hover,.btn-learn-more:hover,.pricing .btn-buy:hover,.contact button[type=submit]:hover{background:var(--ip-green-dark)!important;border-color:var(--ip-green-dark)!important;color:#fff!important;transform:translateY(-2px)}
+      .back-to-top{background:var(--ip-green)!important}
+      #footer{background:var(--ip-navy)!important}
+      @media(max-width:991px){#header{height:74px}#header .logo-brand img{width:60px!important;height:60px!important}.navbar-mobile a{color:var(--ip-navy)!important}.navbar-mobile a:hover,.navbar-mobile .active,.navbar-mobile li:hover>a{color:var(--ip-green-dark)!important}}
     `;
     document.head.appendChild(style);
   };
 
-  const normalizeHeading = (heading) => {
-    const cleanName = cleanDisplayName(heading.textContent);
-    if (heading.textContent.trim() !== cleanName) heading.textContent = cleanName;
-    return cleanName;
+  const installHomeHero = () => {
+    const hero = document.getElementById("carouselExampleCaptions");
+    if (!hero || hero.dataset.ipModernHome === "true") return;
+    hero.dataset.ipModernHome = "true";
+    hero.removeAttribute("data-bs-ride");
+    hero.removeAttribute("style");
+    hero.className = "ip-nextgen-hero";
+    hero.innerHTML = `
+      <div class="container ip-nextgen-shell">
+        <div class="ip-nextgen-copy">
+          <span class="ip-nextgen-kicker">Compliance • Tax • Audit • Advisory</span>
+          <h1>Your New-Generation<br><span>Compliance Partner.</span></h1>
+          <p>Instant Professionals brings corporate compliance, taxation, audit, registrations and business advisory together through one coordinated professional team—so you can operate with clarity and grow with confidence.</p>
+          <div class="ip-nextgen-actions">
+            <a class="ip-action-primary" href="#services">Explore Services</a>
+            <a class="ip-action-secondary" href="#contact">Talk to Our Team</a>
+          </div>
+          <div class="ip-nextgen-proof">
+            <span><i class="bi bi-shield-check"></i> Professional oversight</span>
+            <span><i class="bi bi-diagram-3"></i> Integrated expertise</span>
+            <span><i class="bi bi-clock-history"></i> Timely execution</span>
+          </div>
+        </div>
+        <div class="ip-nextgen-panel">
+          <div class="ip-panel-mark"><img src="assets/img/LOGO.png?v=20260806-0315" alt="Instant Professionals registered logo"></div>
+          <h2>Modern compliance. Practical advice.</h2>
+          <p>Built for startups, growing businesses, established enterprises and individuals who value dependable execution and clear professional guidance.</p>
+          <div class="ip-panel-services">
+            <span>Corporate & Secretarial</span><span>GST & Indirect Tax</span><span>Direct Tax</span><span>Audit & Assurance</span><span>Business Setup</span><span>IP & Legal Support</span>
+          </div>
+        </div>
+      </div>`;
+
+    if (!document.getElementById("ip-nextgen-hero-styles")) {
+      const style = document.createElement("style");
+      style.id = "ip-nextgen-hero-styles";
+      style.textContent = `
+        .ip-nextgen-hero{position:relative;overflow:hidden;min-height:720px;padding:150px 0 84px;display:flex;align-items:center;background:radial-gradient(circle at 82% 15%,rgba(85,184,79,.26),transparent 28%),linear-gradient(135deg,#061733 0%,#0a294d 57%,#0c3a59 100%);color:#fff}
+        .ip-nextgen-hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,black,transparent 92%)}
+        .ip-nextgen-shell{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.13fr) minmax(360px,.87fr);gap:68px;align-items:center}
+        .ip-nextgen-kicker{display:inline-flex;padding:8px 13px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.07);color:#8de284;font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:23px}
+        .ip-nextgen-copy h1{font-size:60px;line-height:1.07;font-weight:800;letter-spacing:-2px;color:#fff;margin:0 0 23px}.ip-nextgen-copy h1 span{color:#71cf68}
+        .ip-nextgen-copy>p{max-width:760px;color:rgba(255,255,255,.82);font-size:18px;line-height:1.75;margin:0 0 30px}
+        .ip-nextgen-actions{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:30px}.ip-nextgen-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:51px;padding:0 23px;border-radius:9px;font-weight:800;text-decoration:none}
+        .ip-action-primary{background:#67c85e;color:#071b3f!important;box-shadow:0 12px 30px rgba(0,0,0,.2)}.ip-action-primary:hover{background:#82dc79;transform:translateY(-2px)}
+        .ip-action-secondary{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.05);color:#fff!important}.ip-action-secondary:hover{background:#fff;color:#071b3f!important}
+        .ip-nextgen-proof{display:flex;flex-wrap:wrap;gap:20px;color:rgba(255,255,255,.76);font-size:13px;font-weight:700}.ip-nextgen-proof span{display:inline-flex;align-items:center;gap:7px}.ip-nextgen-proof i{color:#79d570;font-size:16px}
+        .ip-nextgen-panel{background:rgba(255,255,255,.97);color:#172b3d;border-radius:25px;padding:30px;box-shadow:0 30px 72px rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.7)}
+        .ip-panel-mark{width:104px;height:104px;margin-bottom:20px}.ip-panel-mark img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+        .ip-nextgen-panel h2{font-size:26px;font-weight:800;color:#071b3f;margin-bottom:12px}.ip-nextgen-panel>p{color:#647482;line-height:1.7;margin-bottom:20px}
+        .ip-panel-services{display:flex;flex-wrap:wrap;gap:8px}.ip-panel-services span{padding:8px 10px;border-radius:8px;border:1px solid #dfe8e2;background:#f5f8f6;color:#21425d;font-size:11px;font-weight:800}
+        @media(max-width:991px){.ip-nextgen-hero{padding:132px 0 70px;min-height:auto}.ip-nextgen-shell{grid-template-columns:1fr;gap:40px}.ip-nextgen-copy h1{font-size:49px}.ip-nextgen-panel{max-width:720px}}
+        @media(max-width:575px){.ip-nextgen-hero{padding:112px 0 55px}.ip-nextgen-copy h1{font-size:38px;letter-spacing:-1px}.ip-nextgen-copy>p{font-size:16px}.ip-nextgen-proof{flex-direction:column;gap:9px}.ip-nextgen-panel{padding:21px}.ip-nextgen-actions a{width:100%}}
+      `;
+      document.head.appendChild(style);
+    }
   };
 
-  const updateLegacyCard = (card) => {
-    const heading = card.querySelector(".member-info h4, h4");
-    if (!heading) return;
-    const memberName = normalizeHeading(heading);
-    const path = APPROVED_PHOTOS[memberName] || null;
-    if (!path) return;
+  const installPhotoStyles = () => {
+    if (document.getElementById("ip-approved-team-photo-styles")) return;
+    const style = document.createElement("style");
+    style.id = "ip-approved-team-photo-styles";
+    style.textContent = `
+      #team .ip-folder-team-photo{width:100%;height:350px;overflow:hidden;background:#edf3ef;border-radius:18px 18px 0 0}
+      #team .ip-folder-team-photo img,#team .member-img>img.ip-approved-photo{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center top!important;image-rendering:auto!important}
+      #team .member-img{height:350px;overflow:hidden}
+      @media(max-width:575px){#team .ip-folder-team-photo,#team .member-img{height:380px}}
+    `;
+    document.head.appendChild(style);
+  };
 
-    const holder = card.querySelector(".member-img");
+  const updateCard = (card, headingSelector, holderSelector) => {
+    const heading = card.querySelector(headingSelector);
+    if (!heading) return;
+    const name = cleanName(heading.textContent);
+    heading.textContent = name;
+    const path = APPROVED_PHOTOS[name];
+    if (!path) return;
+    let holder = card.querySelector(holderSelector);
+    if (!holder && card.classList.contains("ip-profile-card")) {
+      holder = document.createElement("div");
+      holder.className = "ip-folder-team-photo";
+      card.insertBefore(holder, card.querySelector(".ip-profile-body") || card.firstChild);
+    }
     if (!holder) return;
-    let image = holder.querySelector(":scope > img");
-    if (!image) {
-      image = document.createElement("img");
-      holder.insertBefore(image, holder.firstChild);
-    }
+    let image = holder.querySelector("img");
+    if (!image) { image = document.createElement("img"); holder.appendChild(image); }
     image.src = `${path}?v=${PHOTO_VERSION}`;
-    image.alt = memberName;
-    image.classList.add("img-fluid", "ip-approved-photo");
+    image.alt = name;
     image.width = 400;
     image.height = 500;
     image.loading = "eager";
     image.decoding = "async";
-  };
-
-  const updateProfileCard = (card) => {
-    const heading = card.querySelector(".ip-profile-name");
-    if (!heading) return;
-    const memberName = normalizeHeading(heading);
-    const path = APPROVED_PHOTOS[memberName] || null;
-    if (!path) return;
-
-    let wrapper = card.querySelector(".ip-folder-team-photo");
-    if (!wrapper) {
-      wrapper = document.createElement("div");
-      wrapper.className = "ip-folder-team-photo";
-      const body = card.querySelector(".ip-profile-body");
-      card.insertBefore(wrapper, body || card.firstChild);
-    }
-
-    let image = wrapper.querySelector("img");
-    if (!image) {
-      image = document.createElement("img");
-      wrapper.appendChild(image);
-    }
-    image.src = `${path}?v=${PHOTO_VERSION}`;
-    image.alt = memberName;
-    image.width = 400;
-    image.height = 500;
-    image.loading = "eager";
-    image.decoding = "async";
-    wrapper.hidden = false;
-    card.classList.add("ip-profile-card-with-photo");
+    image.classList.add("ip-approved-photo");
   };
 
   const syncTeam = () => {
     const section = document.getElementById("team");
-    if (!section) return false;
-
+    if (!section) return;
     const oldHideStyle = document.getElementById("ip-hide-team-photos");
     if (oldHideStyle) oldHideStyle.remove();
-    installStyles();
-
-    section.querySelectorAll(".ip-profile-card").forEach(updateProfileCard);
-    section.querySelectorAll(".member").forEach(updateLegacyCard);
-    section.querySelectorAll(".ip-profile-name, .member-info h4").forEach(normalizeHeading);
-    return true;
+    installPhotoStyles();
+    section.querySelectorAll(".ip-profile-card").forEach(card => updateCard(card, ".ip-profile-name", ".ip-folder-team-photo"));
+    section.querySelectorAll(".member").forEach(card => updateCard(card, ".member-info h4, h4", ".member-img"));
   };
 
   const start = () => {
+    installBrandStyles();
+    installHomeHero();
+    const floating = document.getElementById("slider-text");
+    if (floating) floating.textContent = "Your new-generation compliance partner — professional expertise, practical execution.";
     syncTeam();
-    const section = document.getElementById("team");
-    if (!section || section.dataset.approvedPhotoObserver === "active") return;
-    section.dataset.approvedPhotoObserver = "active";
-    const observer = new MutationObserver(() => window.requestAnimationFrame(syncTeam));
-    observer.observe(section, { childList: true, subtree: true });
+    const team = document.getElementById("team");
+    if (team && team.dataset.ipObserver !== "active") {
+      team.dataset.ipObserver = "active";
+      new MutationObserver(() => requestAnimationFrame(syncTeam)).observe(team,{childList:true,subtree:true});
+    }
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start);
-  } else {
-    start();
-  }
-  window.addEventListener("load", () => {
-    window.setTimeout(start, 50);
-    window.setTimeout(start, 500);
-  });
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+  window.addEventListener("load", () => { start(); setTimeout(start,300); });
 })();
