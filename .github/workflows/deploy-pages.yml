@@ -37,11 +37,14 @@ jobs:
             photo_count=$((photo_count + 1))
             test -s "$portrait"
             mime_type="$(file --brief --mime-type "$portrait")"
-            echo "Checking $portrait ($mime_type)"
+            byte_size="$(stat -c%s "$portrait")"
+            echo "Checking $portrait ($mime_type, ${byte_size} bytes)"
             test "$mime_type" = "image/jpeg"
           done < <(find "$photo_folder" -maxdepth 1 -type f -name '*.jpg' -print0)
 
           test "$photo_count" -gt 0
+          test "$(stat -c%s "$photo_folder/renu-sharma.jpg")" -ge 30000
+          test "$(stat -c%s "$photo_folder/navdha-puri.jpg")" -ge 20000
           echo "Validated $photo_count live team portrait(s)."
 
       - name: Configure Pages
