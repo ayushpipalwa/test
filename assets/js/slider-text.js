@@ -7,11 +7,12 @@ if (floating_text) floating_text.innerHTML = given_text;
 (function () {
   "use strict";
 
-  const PHOTO_VERSION = "20260806-0222";
+  const PHOTO_VERSION = "20260806-0235";
   const APPROVED_PHOTOS = {
     "Ayush Pipalwa": "assets/img/team/live/ayush-pipalwa.jpg",
     "Renu Sharma": "assets/img/team/live/renu-sharma.jpg",
     "Navdha Puri": "assets/img/team/live/navdha-puri.jpg",
+    "Navdha Pahwa": "assets/img/team/live/navdha-puri.jpg",
     "Rohit Sharma": "assets/img/team/live/rohit-sharma.jpg",
     "Mayank Jain": "assets/img/team/live/mayank-jain.jpg",
     "Mayank Hoiyani": "assets/img/team/live/mayank-hoiyani.jpg",
